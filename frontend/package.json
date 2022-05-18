@@ -1,0 +1,56 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/runtime": "^7.17.9",
+    "babel-loader": "^8.2.4",
+    "babel-plugin-import": "^1.13.3",
+    "compression-webpack-plugin": "^9.2.0",
+    "copy-webpack-plugin": "^10.2.0",
+    "css-loader": "^6.7.1",
+    "eslint": "^8.12.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-webpack-plugin": "^3.1.1",
+    "file-loader": "^6.2.0",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
+    "raw-loader": "^4.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.8.1",
+    "webpack-merge": "^5.8.0",
+    "workbox-webpack-plugin": "^6.5.2"
+  },
+  "scripts": {
+    "start": "webpack --mode development",
+    "dev": "webpack serve --config webpack.dev.js --progress"
+  },
+  "dependencies": {
+    "antd": "^4.19.5",
+    "axios": "^0.26.1",
+    "date-fns": "^2.28.0",
+    "react": "^17.0.2",
+    "react-big-calendar": "^0.39.7",
+    "react-datepicker": "^4.7.0",
+    "react-dom": "^17.0.2",
+    "react-intl": "^5.24.8",
+    "react-router-dom": "^5.3.0",
+    "react-weekly-day-picker": "^1.0.3",
+    "string-mask": "^0.3.0"
+  }
+}

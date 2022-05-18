@@ -1,0 +1,10 @@
+node_modules
+package-lock.json
+dist
+coverage
+teste
+test
+coverage
+.vscode
+*.pdf
+*.rar
