@@ -1,10 +1,10 @@
 const path = require('path');
 
-function border(doc, size = 30) {
+function border(doc, size = 20) {
 	const { height, width } = doc.page;
 
 	doc
-		.rect(15, 15, width - size, height - 30)
+		.rect(10, 10, width - size, height - 20)
 		.stroke();
 
 	return doc;
@@ -38,13 +38,14 @@ function header(doc, data) {
 		y += 17;
 	}
 
+	doc.text('TURMA: BERÇÁRIO IIA', 30, y + 125);
+
 	if (data.atividade) {
-		doc.text(`ATIVIDADE: ${data.atividade.toUpperCase()}`, 30, y + 125);
+		doc.text(`ATIVIDADE: ${data.atividade.toUpperCase()}`, 30, y + 142);
 
 		y += 17;
 	}
 
-	doc.text('TURMA: BERÇÁRIO IIA', 30, y + 125);
 
 	doc = changeFont(doc, 14, 'arial-bold');
 
@@ -58,7 +59,7 @@ function header(doc, data) {
 
 function changeFont(doc, size = 9, font) {
 	doc
-		.font(`reports/fonts/${font}.ttf`)
+		.font(path.join(__dirname, `../../../../atividades/fonts/${font}.ttf`))
 		.fontSize(size);
 
 	return doc;

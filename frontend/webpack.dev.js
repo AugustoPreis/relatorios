@@ -19,7 +19,7 @@ module.exports = merge(config, {
 		open: true,
 		port: 4000,
 		proxy: [{
-			context: ['/painel'],
+			context: ['/gerador'],
 			target: 'http://localhost:3000/',
 			secure: false,
 			changeOrigin: true

@@ -1,10 +1,8 @@
-const painelController = require('./painelController');
+const geradorController = require('./geradorController');
 
 async function get(req, res) {
 	try {
-		const rows = await painelController.getReport(req.params.id, res);
-
-		res.status(201).json(rows);
+		return await geradorController.getReport(req.params.id, res);
 	} catch (err) {
 		if (typeof err === 'object')
 			res.status(404).json({ message: err.message });
@@ -15,9 +13,7 @@ async function get(req, res) {
 
 async function post(req, res) {
 	try {
-		const rows = await painelController.report(req.body, res);
-
-		res.status(201).json(rows);
+		return await geradorController.report(req.body, res);
 	} catch (err) {
 		if (typeof err === 'object')
 			res.status(404).json({ message: err.message });
@@ -26,4 +22,4 @@ async function post(req, res) {
 	}
 }
 
-module.exports = { get, post, }
+module.exports = { get, post }

@@ -1,11 +1,11 @@
 const express = require('express');
-const painel = require('../controllers/painel/painel');
+const gerador = require('../controllers/gerador/gerador');
 
 const router = new express.Router();
 
-router.route('/painel/:id?')
-	.get(painel.get)
-	.post(painel.post);
+router.route('/gerador/:id?')
+	.get(gerador.get)
+	.post(gerador.post);
 
 
 module.exports = router;

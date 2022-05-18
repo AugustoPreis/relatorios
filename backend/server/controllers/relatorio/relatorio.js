@@ -2,13 +2,13 @@ const PDFDocument = require('pdfkit');
 const { header, addPage, border } = require('../utils/reportUtils');
 
 function generate(data) {
-	let doc = new PDFDocument({ margin: 0, size: 'a4' });
+	let doc = new PDFDocument({ margin: 0, size: 'A4' });
 
 	doc = border(doc);
 
 	doc = header(doc, data);
 
-	doc = putFiles(doc, data.anexos || []);
+	doc = putFiles(doc, data.files || []);
 
 	return doc;
 }

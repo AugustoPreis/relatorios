@@ -6,7 +6,7 @@ const routers = require('./server/utils/router');
 
 const app = express();
 
-let server = http.createServer(app);
+const server = http.createServer(app);
 
 app.use(cors());
 
@@ -16,10 +16,10 @@ app.use(express.json());
 
 app.use(compression());
 
-app.use('/images', express.static('images'))
-
 app.use(routers);
 
-server.listen(3000)
-	.on('listening', () => console.log('Server iniciado na porta 3000!'))
-	.on('error', err => console.log('Erro: ', err));
+server.listen(3000).on('listening', () => {
+	console.log('Server iniciado na porta 3000!')
+}).on('error', (err) => {
+	console.log('Erro: ', err)
+});

@@ -1,40 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Row, Form, Upload, Input, Button, Popconfirm, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import request from '../request/Request';
+import axios from 'axios';
 
-function Painel() {
+function Gerador() {
 	const [form] = Form.useForm();
+	const [path, setPath] = useState('');
 
-	const handleReport = ({ anexos, ...values }) => {
-		request('/painel/relatorio', {
-			method: 'post',
-			headers: {
-				'Content-Type': 'multipart/form-data'
-			},
-			files: anexos,
-			body: { ...values }
-		}).then(({ data: { codigo } }) => {
-			let newWindow = window.open();
+	const handleReport = values => {
 
-			newWindow.location = `/painel/${codigo}.pdf`;
-			newWindow.opener = null;
-		}).catch((err) => {
-			notification.error({
-				message: 'Erro!',
-				description: err.response.data.message
+		axios.post('/gerador/relatorio', { ...values })
+			.then(({ data: { nome } }) => {
+				const newWindow = window.open();
+
+				newWindow.location = `/gerador/${nome}.pdf`;
+				newWindow.opener = null;
+			}).catch((err) => {
+				let { message } = err.response.data
+
+				if (message.includes('ALREADY_EXISTS')) {
+					message = JSON.parse(message);
+					setPath(message.path);
+
+					message = (
+						<span>
+							A atividade <b>{values.nome}</b> já existe,
+							<br />
+							<a onClick={() => { openWindow() }}>Clique para visualizá-la</a>
+						</span>
+					);
+				}
+
+				notification.error({
+					message: 'Erro!',
+					description: message
+				})
 			})
-		})
 	}
 
-	const handleAnexos = (anexos = []) => {
-		const files = [];
-		for (let i = 0; i < anexos.length; i++) {
-
-			files.push(anexos[i].uid);
-		}
-
-		return files;
+	const openWindow = () => {
+		window.open(path);
 	}
 
 	const handleEmail = () => {
@@ -57,7 +62,14 @@ function Painel() {
 				<Col span={13}>
 					<Row gutter={10}
 						justify='center'>
-						<Col span={12}>
+						<Col span={10}>
+							<Form.Item name='nome'
+								label='Nome do arquivo'
+								rules={[{ required: true, message: 'O nome da atividade é obrigatório!' }]}>
+								<Input />
+							</Form.Item>
+						</Col>
+						<Col span={14}>
 							<Form.Item name='projeto'
 								label='Nome do projeto'>
 								<Input />
@@ -69,7 +81,7 @@ function Painel() {
 								<Input />
 							</Form.Item>
 						</Col>
-						<Col span={24}>
+						<Col span={12}>
 							<Form.Item name='titulo'
 								label='Título'>
 								<Input />
@@ -105,7 +117,7 @@ function Painel() {
 							<Button block
 								type='primary'
 								onClick={form.submit}>
-								Visualizar
+								Gerar atividade
 							</Button>
 						</Col>
 					</Row>
@@ -115,4 +127,4 @@ function Painel() {
 	);
 }
 
-export default Painel;
+export default Gerador;
