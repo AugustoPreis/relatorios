@@ -16,8 +16,10 @@ app.use(express.json());
 
 app.use(compression());
 
+app.use('/images', express.static('images'))
+
 app.use(routers);
 
 server.listen(3000)
-	.on('listening', () => console.info('Server iniciado na porta 3000!'))
+	.on('listening', () => console.log('Server iniciado na porta 3000!'))
 	.on('error', err => console.log('Erro: ', err));

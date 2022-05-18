@@ -6,7 +6,7 @@ module.exports = {
 		path: path.resolve(__dirname, '../backend/dist'),
 		filename: 'bundle.js',
 		chunkFilename: 'chunk[name].js',
-		publicPath: '/painel',
+		publicPath: '/',
 		clean: true
 	},
 	module: {
