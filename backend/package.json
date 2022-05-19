@@ -27,6 +27,8 @@
     "@chilkat/ck-node12-linux64": "^9.50.86"
   },
   "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-plugin-import": "^2.26.0",
     "nodemon": "^2.0.15"
   }
 }
