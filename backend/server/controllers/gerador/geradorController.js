@@ -2,33 +2,35 @@ const relatorio = require('../relatorio/relatorio');
 const fs = require('fs');
 const path = require('path');
 
-async function report(query, res) {
+async function report(req, res) {
 	try {
-		const nome = query.nome.trim();
-		const dir = path.join(__dirname, '../../../../atividades/' + nome);
+		const { body, files } = req;
 
-		if (fs.existsSync(path.join(dir, nome + '.pdf'))) {
+		body.nome = body.nome.trim();
+		const dir = path.join(__dirname, '../../../../atividades', body.nome);
+
+		if (fs.existsSync(dir)) {
 			throw JSON.stringify({
 				message: 'ALREADY_EXISTS',
-				path: path.join(dir, nome + '.pdf')
+				path: path.join(dir, body.nome + '.pdf')
 			});
 		}
 
-		const file = relatorio.generate(query);
+		const file = await relatorio.generate(body, files);
 
 		fs.mkdirSync(dir);
 
-		const writeStream = fs.createWriteStream(path.join(dir, `${nome}.pdf`));
+		const writeStream = fs.createWriteStream(path.join(dir, `${body.nome}.pdf`));
 
 		file.pipe(writeStream);
 
 		writeStream.on('finish', () => {
-			res.status(200).json({ nome: query.nome });
+			res.status(200).json({ nome: body.nome });
 		});
 
 		file.end();
 
-		return query.nome;
+		return body.nome;
 	} catch (err) {
 		throw err;
 	}

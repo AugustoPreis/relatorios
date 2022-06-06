@@ -1,26 +1,29 @@
 const PDFDocument = require('pdfkit');
 const { header, addPage, border } = require('../utils/reportUtils');
 
-function generate(data) {
+async function generate(data, files) {
 	let doc = new PDFDocument({ margin: 0, size: 'A4' });
 
 	doc = border(doc);
 
 	doc = header(doc, data);
 
-	doc = putFiles(doc, data.files || []);
+	doc = await putFiles(doc, data, files || []);
 
 	return doc;
 }
 
-function putFiles(doc, files) {
+async function putFiles(doc, data, files) {
 	let page = 0;
 
 	for (let i = 0; i < files.length; i++) {
-		const file = files[i];
+		const { buffer } = files[i];
 
-		if (i != (file.length - 1)) {
-			addPage(doc, page, (newPage) => { page = newPage })
+		doc
+			.image(buffer, 35, 250, { fit: [520, 520] });
+
+		if (i != (files.length - 1)) {
+			addPage(doc, page, data, (newPage) => { page = newPage })
 		}
 	}
 

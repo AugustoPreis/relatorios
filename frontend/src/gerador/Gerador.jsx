@@ -1,45 +1,41 @@
 import React, { useState } from 'react';
-import { Col, Row, Form, Upload, Input, Button, Popconfirm, notification } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import { Col, Row, Form, Upload, Input, Button, Popconfirm, notification, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { formData } from './utils';
 
 function Gerador() {
 	const [form] = Form.useForm();
 	const [path, setPath] = useState('');
 
 	const handleReport = values => {
+		if (!values.anexos || values.anexos.length === 0)
+			return message.error('É preciso inserir ao menos um arquvio!');
 
-		axios.post('/gerador/relatorio', { ...values })
-			.then(({ data: { nome } }) => {
-				const newWindow = window.open();
+		values.anexos = values.anexos.fileList || [];
 
-				newWindow.location = `/gerador/${nome}.pdf`;
-				newWindow.opener = null;
-			}).catch((err) => {
-				let { message } = err.response.data
+		const form = formData(values);
 
-				if (message.includes('ALREADY_EXISTS')) {
-					message = JSON.parse(message);
-					setPath(message.path);
+		axios.post('/gerador/relatorio', form, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		}).then(({ data: { nome } }) => {
+			const newWindow = window.open();
 
-					message = (
-						<span>
-							A atividade <b>{values.nome}</b> já existe,
-							<br />
-							<a onClick={() => { openWindow() }}>Clique para visualizá-la</a>
-						</span>
-					);
-				}
+			newWindow.location = `/gerador/${nome}.pdf`;
+			newWindow.opener = null;
+		}).catch((err) => {
+			let { message } = err.response.data;
 
-				notification.error({
-					message: 'Erro!',
-					description: message
-				})
-			})
-	}
+			if (message === 'ALREADY_EXISTS')
+				message = `A atividade ${values.nome} já existe`;
 
-	const openWindow = () => {
-		window.open(path);
+			notification.error({
+				message: 'Erro!',
+				description: message || ''
+			});
+		})
 	}
 
 	const handleEmail = () => {

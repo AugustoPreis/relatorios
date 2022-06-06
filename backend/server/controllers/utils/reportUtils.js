@@ -59,18 +59,18 @@ function header(doc, data) {
 
 function changeFont(doc, size = 9, font) {
 	doc
-		.font(path.join(__dirname, `../../../../atividades/fonts/${font}.ttf`))
+		.font(path.join(__dirname, `../../../fonts/${font}.ttf`))
 		.fontSize(size);
 
 	return doc;
 }
 
-function addPage(doc, page, add) {
+function addPage(doc, page, data, add) {
 	page++;
 	doc.addPage({ margin: 0, size: 'A4' });
 	doc.switchToPage(page);
 	border(doc);
-	header(doc);
+	header(doc, data);
 
 	add && add(page);
 

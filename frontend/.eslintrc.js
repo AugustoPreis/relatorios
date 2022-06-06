@@ -28,7 +28,7 @@ module.exports = {
 	"rules": {
 		"no-dupe-keys": 1,
 		"no-unused-vars": 1,
-		"no-console": 0,
+		"no-console": 1,
 		"arrow-spacing": 1,
 		"react/jsx-max-props-per-line": 1,
 		"react/jsx-no-duplicate-props": 1,

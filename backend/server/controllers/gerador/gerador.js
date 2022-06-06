@@ -13,7 +13,7 @@ async function get(req, res) {
 
 async function post(req, res) {
 	try {
-		return await geradorController.report(req.body, res);
+		return await geradorController.report(req, res);
 	} catch (err) {
 		if (typeof err === 'object')
 			res.status(404).json({ message: err.message });
